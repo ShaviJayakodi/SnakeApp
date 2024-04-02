@@ -41,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 
-//test
+
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> badRequestHandling(BadRequestException ex, WebRequest request){
 
