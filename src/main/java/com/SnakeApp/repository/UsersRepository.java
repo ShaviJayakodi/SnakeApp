@@ -12,6 +12,6 @@ public interface UsersRepository extends JpaRepository<Users , Long> {
     int getNextUserId();
 
     //Users findByEnEmail(String eMail);
-    @Query(value = "SELECT * FROM users WHERE en_email =?1 LIMIT 1", nativeQuery = true)
-    Users findByEnEmail(String eMail);
+    //@Query(value = "SELECT * FROM users WHERE en_email =?1 LIMIT 1", nativeQuery = true)
+    Users findByEnEmailAndStatus(String enEmail,int status);
 }

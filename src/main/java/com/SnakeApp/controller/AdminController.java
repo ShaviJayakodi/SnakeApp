@@ -21,4 +21,26 @@ public class AdminController {
         return adminService.saveNewAdmin(adminDto);
     }
 
+    @GetMapping("/getAllAdmins")
+    public CommonResponse getAllAdmin()
+    {
+        return adminService.getAllAdmin();
+    }
+
+    @GetMapping("/getAdminByRegNo")
+    public CommonResponse getAdminByRegNo(@RequestParam String regNo){
+        return adminService.getAdminByRegNo(regNo);
+    }
+
+    @PutMapping ("/updateAdmin")
+    public CommonResponse updateAdmin(@Valid @RequestBody AdminDto adminDto){
+        return adminService.updateAdmin(adminDto);
+    }
+
+    @DeleteMapping("/deleteAdmin")
+    public CommonResponse deleteAdmin(@RequestParam long adminId){
+        return adminService.deleteAdmin(adminId);
+    }
+
+
 }
