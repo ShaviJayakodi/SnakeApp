@@ -54,27 +54,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
- /*   @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+   /* @ExceptionHandler(MethodArgumentNotValidException.class)
+       protected ResponseEntity<Object> handleMethodArgumentNotValid(
+               MethodArgumentNotValidException ex, HttpHeaders headers,
+               HttpStatus status, WebRequest request) {
 
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+           List<String> errors = ex.getBindingResult()
+                   .getFieldErrors()
+                   .stream()
+                   .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                   .collect(Collectors.toList());
 
-        ErrorResponse responses = new ErrorResponse();
-        responses.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        responses.setMessage(HttpStatus.BAD_REQUEST.name());
-        responses.setDetails(errors.toString());
-        responses.setTimestamp(new Date());
+           ErrorResponse responses = new ErrorResponse();
+           responses.setStatusCode(HttpStatus.BAD_REQUEST.value());
+           responses.setMessage(HttpStatus.BAD_REQUEST.name());
+           responses.setDetails(errors.toString());
+           responses.setTimestamp(new Date());
 
-        return new ResponseEntity<>(responses, HttpStatus.BAD_REQUEST);
+           return new ResponseEntity<>(responses, HttpStatus.BAD_REQUEST);
 
-    }
-*/
+       }
+   */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> globalExceptionHandling(Exception ex, WebRequest request){
 
