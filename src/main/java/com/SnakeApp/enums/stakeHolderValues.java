@@ -2,8 +2,8 @@ package com.SnakeApp.enums;
 
 public enum stakeHolderValues {
     ADMIN("10"),
-    CONSULTANT("20"),
-    SEEKER("30");
+    SNAKE_CATCHER("20"),
+    USER("30");
 
     private String code;
     stakeHolderValues (String code)

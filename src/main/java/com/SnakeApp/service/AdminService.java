@@ -35,6 +35,9 @@ public class AdminService implements CommandLineRunner {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private UsersService usersService;
     @Override
     public void run(String... args) throws Exception {
         if(adminRepository.count() == 0)
@@ -147,7 +150,9 @@ public class AdminService implements CommandLineRunner {
             throw new ResourceNotFoundException("Admin Data Not Found!");
         }
         admin.setStatus(statusValue.DEACTIVE.sts());
-        adminRepository.save(admin);
+        if(adminRepository.save(admin) != null){
+            usersService.deleteUser(admin.getEmail());
+        }
         commonResponse.setMessages(Arrays.asList("Successfully Deleted!"));
         commonResponse.setStatus(true);
         return commonResponse;

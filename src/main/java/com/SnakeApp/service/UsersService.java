@@ -69,6 +69,20 @@ public class UsersService{
         return commonResponse;
     }
 
+    public CommonResponse deleteUser(String email){
+        CommonResponse commonResponse = new CommonResponse();
+        Users user = usersRepository.findByEnEmailAndStatus(Encrypter.encrypt(email), statusValue.ACTIVE.sts());
+        if(user == null){
+            throw new ResourceNotFoundException("User Not Found!");
+        }
+        user.setStatus(statusValue.DEACTIVE.sts());
+        usersRepository.save(user);
+        commonResponse.setStatus(true);
+        commonResponse.setMessages(Arrays.asList("User Deleted!"));
+        return commonResponse;
+    }
+
+
 
 
 }
