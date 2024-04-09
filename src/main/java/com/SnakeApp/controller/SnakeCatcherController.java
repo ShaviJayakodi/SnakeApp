@@ -33,4 +33,19 @@ public class SnakeCatcherController {
     public CommonResponse updateSnakeCatcher (@Valid @RequestBody SnakeCatcherDto snakeCatcherDto){
         return snakeCatcherService.updateSnakeCatcher(snakeCatcherDto);
     }
+
+    @GetMapping("/getAllSnakeCatchers")
+    public CommonResponse getAllSnakeCatchers (){
+        return snakeCatcherService.getAllSnakeCatchers();
+    }
+
+    @GetMapping("/getSnakeCatherDataByRegNo")
+    public CommonResponse getSnakeCatherDataByRegNo(@RequestParam String regNo){
+        return snakeCatcherService.getSnakeCatherDataByRegNo(regNo);
+    }
+
+    @DeleteMapping("/deleteSnakeCatcher")
+    public CommonResponse deleteSnakeCatcher(@RequestParam long snakeCatcherId){
+        return snakeCatcherService.deleteSnakeCatcher(snakeCatcherId);
+    }
 }

@@ -34,6 +34,7 @@ public class SnakeCatcherService {
 
     @Autowired
     private UsersRepository usersRepository;
+
     @Autowired
     private EmailService emailService;
 
@@ -139,6 +140,57 @@ public class SnakeCatcherService {
             commonResponse.setPayload(true);
             commonResponse.setPayload(snakeCatcher);
         }
+        return commonResponse;
+    }
+
+    public CommonResponse deleteSnakeCatcher(long snakeCatcherId){
+        CommonResponse commonResponse = new CommonResponse();
+        SnakeCatcher snakeCatcher = snakeCatcherRepository.findBySnakeCatcherIdAndStatus(snakeCatcherId, statusValue.ACTIVE.sts());
+        Users user = new Users();
+
+        if(snakeCatcher == null){
+            throw new ResourceNotFoundException("Snake Cather Data Not Found!");
+        }
+
+        user = usersRepository.findByRegNoAndStatus(snakeCatcher.getRegNo(),statusValue.ACTIVE.sts());
+
+        snakeCatcher.setStatus(statusValue.DEACTIVE.sts());
+        user.setStatus(statusValue.DEACTIVE.sts());
+        snakeCatcherRepository.save(snakeCatcher);
+        usersRepository.save(user);
+
+        commonResponse.setMessages(Arrays.asList("Done!"));
+        commonResponse.setStatus(true);
+
+        return commonResponse;
+    }
+
+    public CommonResponse getAllSnakeCatchers(){
+        CommonResponse commonResponse = new CommonResponse();
+        List<SnakeCatcher> snakeCatcherList = snakeCatcherRepository.findByStatus(statusValue.ACTIVE.sts());
+
+        if(snakeCatcherList.size() == 0){
+            throw new ResourceNotFoundException("No Any Snake Catchers Data.!");
+        }
+
+        commonResponse.setStatus(true);
+        commonResponse.setPayload(snakeCatcherList);
+        commonResponse.setMessages(Arrays.asList("Data Found.!"));
+
+        return commonResponse;
+
+    }
+
+    public CommonResponse getSnakeCatherDataByRegNo(String regNo) {
+        CommonResponse commonResponse = new CommonResponse();
+        SnakeCatcher snakeCatcher = snakeCatcherRepository.findByRegNoAndStatus(regNo, statusValue.ACTIVE.sts());
+        if(snakeCatcher == null){
+            throw new ResourceNotFoundException("Data Not Found.!");
+        }
+        commonResponse.setPayload(snakeCatcher);
+        commonResponse.setStatus(true);
+        commonResponse.setMessages(Arrays.asList("Data Found.!"));
+
         return commonResponse;
     }
 }
