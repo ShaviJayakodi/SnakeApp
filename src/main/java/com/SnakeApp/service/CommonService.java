@@ -6,6 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Service
 @Transactional
@@ -24,5 +27,16 @@ public class CommonService {
         regNo=Integer.toString(year)+code+format;
         return regNo;
 
+    }
+
+    public int calculateAge(LocalDate dateOfBirth) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        //LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr, formatter);
+        LocalDate currentDate = LocalDate.now();
+       //boolean isAfterBirthday = (currentDate.getMonthValue() > dateOfBirth.getMonthValue() ||
+          //      (currentDate.getMonthValue() == dateOfBirth.getMonthValue() &&
+          //              currentDate.getDayOfMonth() > dateOfBirth.getDayOfMonth()));
+        int age = Period.between(dateOfBirth, currentDate).getYears();
+        return age;
     }
 }
