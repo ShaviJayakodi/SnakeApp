@@ -1,6 +1,7 @@
 package com.SnakeApp.service;
 
 import com.SnakeApp.dto.AdminDto;
+import com.SnakeApp.dto.MailDto;
 import com.SnakeApp.entity.Admin;
 import com.SnakeApp.entity.Users;
 import com.SnakeApp.enums.stakeHolderValues;
@@ -14,9 +15,11 @@ import com.SnakeApp.util.Encrypter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +38,12 @@ public class AdminService implements CommandLineRunner {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private UsersService usersService;
+    @Autowired
+    private EmailService  emailService;
+
     @Override
     public void run(String... args) throws Exception {
         if(adminRepository.count() == 0)
@@ -53,6 +62,7 @@ public class AdminService implements CommandLineRunner {
         Admin admin = modelMapper.map(adminDto,Admin.class);
         CommonResponse commonResponse = new CommonResponse();
         Users user = new Users();
+        MailDto mailDto = new MailDto();
 
         admin.setRegNo(commonService.generateRegNo(adminRepository.getNextAdminId(), stakeHolderValues.ADMIN.code()));
         admin.setStatus(statusValue.ACTIVE.sts());
@@ -78,14 +88,20 @@ public class AdminService implements CommandLineRunner {
         {
             user.setUserType("ADMIN");
         }
+        user.setUserName(admin.getSalutation()+" "+admin.getFirstName()+" "+admin.getLastName());
         user.setStatus(statusValue.ACTIVE.sts());
-        user.setEnPassword(Encrypter.encrypt(adminDto.getRegNo()+"@#Snake"));
+        user.setEnPassword(Encrypter.encrypt(admin.getRegNo()+"@#Snake"));
         user.setEnEmail(Encrypter.encrypt(adminDto.getEmail()));
         user.setRegNo(admin.getRegNo());
 
         if(adminRepository.save(admin) != null){
             if(usersRepository.save(user) != null)
             {
+                mailDto.setToMail(admin.getEmail());
+                mailDto.setSubject("Register Request");
+                mailDto.setMessage("UserName is your email and password is "+Encrypter.decrypt(user.getEnPassword()));
+                emailService.sendMail(mailDto);
+
                 commonResponse.setStatus(true);
                 commonResponse.setMessages(Arrays.asList("New Admin Created!"));
             }
@@ -94,8 +110,7 @@ public class AdminService implements CommandLineRunner {
         return commonResponse;
     }
 
-    public CommonResponse getAllAdmin()
-    {
+    public CommonResponse getAllAdmin() {
        CommonResponse commonResponse = new CommonResponse();
        List<Admin> adminList = adminRepository.findAllByStatus(statusValue.ACTIVE.sts());
        if(adminList == null)
@@ -147,7 +162,9 @@ public class AdminService implements CommandLineRunner {
             throw new ResourceNotFoundException("Admin Data Not Found!");
         }
         admin.setStatus(statusValue.DEACTIVE.sts());
-        adminRepository.save(admin);
+        if(adminRepository.save(admin) != null){
+            usersService.deleteUser(admin.getEmail());
+        }
         commonResponse.setMessages(Arrays.asList("Successfully Deleted!"));
         commonResponse.setStatus(true);
         return commonResponse;
