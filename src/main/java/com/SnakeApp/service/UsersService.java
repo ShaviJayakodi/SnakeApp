@@ -48,6 +48,7 @@ public class UsersService{
 
 
     public CommonResponse changePassword(PasswordChangeDto passwordChangeDto){
+        passwordChangeDto.setEmail(Encrypter.decrypt(passwordChangeDto.getEmail()));
         CommonResponse commonResponse = new CommonResponse();
         Users user = new Users();
         user = usersRepository.findByEnEmailAndStatus(Encrypter.encrypt(passwordChangeDto.getEmail()),statusValue.ACTIVE.sts());
@@ -56,11 +57,11 @@ public class UsersService{
         }
         System.out.println(user.getEnPassword());
         System.out.println(Encrypter.encrypt(passwordChangeDto.getCurPassword()));
-        if(Encrypter.encrypt(passwordChangeDto.getCurPassword()) == user.getEnPassword()) {
+        if(!Encrypter.encrypt(passwordChangeDto.getCurPassword()).equals(user.getEnPassword())) {
             throw new ResourceNotFoundException("Password Not Matched!");
         }
         user.setEnPassword(Encrypter.encrypt(passwordChangeDto.getNewPassword()));
-        user.setIsFirstLogin(statusValue.COMPLETE.sts());
+        user.setIsFirstLogin(statusValue.DEACTIVE.sts());
         usersRepository.save(user);
 
         commonResponse.setStatus(true);
@@ -83,6 +84,20 @@ public class UsersService{
     }
 
 
-
-
+//    public CommonResponse passwordVerify(long userId, String password) {
+//        Users user = new Users();
+//        CommonResponse commonResponse = new CommonResponse();
+//
+//        user = usersRepository.findByUserIdAndStatus(userId,statusValue.ACTIVE.sts());
+//        if(user != null){
+//            if(user.getEnPassword().equals(Encrypter.encrypt(password))){
+//
+//            }
+//        }
+//        else {
+//            throw new ResourceNotFoundException("Data Not Found!");
+//        }
+//
+//
+//    }
 }

@@ -19,6 +19,7 @@ public class SnakeCatcherDto {
     private LocalDate dob;
     private int age;
     private String email;
+    private String contactNo;
     private String street;
     private String city;
     private long postalCode;

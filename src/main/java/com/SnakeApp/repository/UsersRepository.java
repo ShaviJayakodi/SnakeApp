@@ -17,4 +17,6 @@ public interface UsersRepository extends JpaRepository<Users , Long> {
     Users findByEnEmailAndStatus(String enEmail,int status);
     Users findByRegNo(String regNo);
     Users findByRegNoAndStatus(String regNo, int status);
+
+    Users findByUserIdAndStatus(long userId, int status);
 }

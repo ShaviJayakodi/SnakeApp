@@ -14,8 +14,13 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
-    @PutMapping("/changePassword")
-    public CommonResponse changePassword(@Valid @RequestBody PasswordChangeDto passwordChangeDto){
+        @PostMapping("/changePassword")
+        public CommonResponse changePassword(@Valid @RequestBody PasswordChangeDto passwordChangeDto){
         return usersService.changePassword(passwordChangeDto);
     }
+
+//    @GetMapping("/passwordVerify")
+//    public CommonResponse passwordVerify(@Valid @RequestParam long userId, @RequestParam String password){
+//        return usersService.passwordVerify(userId, password);
+//    }
 }

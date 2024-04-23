@@ -43,9 +43,13 @@ public class SnakeCatcherService {
         MailDto mailDto = new MailDto();
         SnakeCatcher snakeCatcher = modelMapper.map(snakeCatcherDto,SnakeCatcher.class);
         SnakeCatcher exSnakeCather = snakeCatcherRepository.findByEmailAndStatus(snakeCatcherDto.getEmail(), statusValue.ACTIVE.sts());
+        SnakeCatcher ifPendingRequest = snakeCatcherRepository.findByEmailAndStatus(snakeCatcherDto.getEmail(), statusValue.PENDING.sts());
         Users user = new Users();
         if(exSnakeCather != null){
             throw new ResourceFoundException("Already Exist Email Address!");
+        }
+        if(ifPendingRequest != null){
+            throw new ResourceNotFoundException("Your Email Already Exist and Under the Approval.!");
         }
 
         snakeCatcher.setRegNo(commonService.generateRegNo(snakeCatcherRepository.getNextSnakeCatcherId(), stakeHolderValues.SNAKE_CATCHER.code()));
