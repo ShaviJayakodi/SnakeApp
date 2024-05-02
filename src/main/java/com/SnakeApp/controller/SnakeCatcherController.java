@@ -40,10 +40,10 @@ public class SnakeCatcherController {
     }
 
     @GetMapping("/getSnakeCatherDataByRegNo")
-    public CommonResponse getSnakeCatherDataByRegNo(@RequestParam String regNo){
+    public CommonResponse getSnakeCatherDataByRegNo(@RequestParam String regNo) {
         return snakeCatcherService.getSnakeCatherDataByRegNo(regNo);
-    }
 
+    }
     @DeleteMapping("/deleteSnakeCatcher")
     public CommonResponse deleteSnakeCatcher(@RequestParam long snakeCatcherId){
         return snakeCatcherService.deleteSnakeCatcher(snakeCatcherId);

@@ -129,6 +129,7 @@ public class SnakeCatcherService {
 
     public CommonResponse updateSnakeCatcher(SnakeCatcherDto snakeCatcherDto){
         SnakeCatcher snakeCatcher = modelMapper.map(snakeCatcherDto,SnakeCatcher.class);
+        snakeCatcher.setAge(commonService.calculateAge(snakeCatcherDto.getDob()));
         CommonResponse commonResponse = new CommonResponse();
         MailDto mailDto = new MailDto();
         if(snakeCatcherRepository.findBySnakeCatcherIdAndStatus(snakeCatcher.getSnakeCatcherId(),statusValue.ACTIVE.sts()) == null){
