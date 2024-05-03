@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SnakeDataRepository extends JpaRepository<SnakeData,Long> {
+
+    SnakeData getSnakeDataBySnakeNameAndStatus(String snakeName, int status);
 }

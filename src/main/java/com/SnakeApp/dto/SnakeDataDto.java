@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class SnakeDataDto {
     private long snakeId;
     private String snakeName;
-    private int venomousOrNot;
-    private int venomousLevel;
+    private String venomousOrNot;
+    private String venomousLevel;
     private int status;
 }
