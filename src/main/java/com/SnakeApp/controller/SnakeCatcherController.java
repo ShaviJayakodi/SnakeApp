@@ -39,11 +39,17 @@ public class SnakeCatcherController {
         return snakeCatcherService.getAllSnakeCatchers();
     }
 
-    @GetMapping("/getSnakeCatherDataByRegNo")
-    public CommonResponse getSnakeCatherDataByRegNo(@RequestParam String regNo){
-        return snakeCatcherService.getSnakeCatherDataByRegNo(regNo);
+    @GetMapping("/getAllSnakeCatchersByCity")
+    public CommonResponse getSnakeCatchersByCity(@RequestParam String city){
+        return snakeCatcherService.getSnakeCatchersByCity(city);
     }
 
+
+    @GetMapping("/getSnakeCatherDataByRegNo")
+    public CommonResponse getSnakeCatherDataByRegNo(@RequestParam String regNo) {
+        return snakeCatcherService.getSnakeCatherDataByRegNo(regNo);
+
+    }
     @DeleteMapping("/deleteSnakeCatcher")
     public CommonResponse deleteSnakeCatcher(@RequestParam long snakeCatcherId){
         return snakeCatcherService.deleteSnakeCatcher(snakeCatcherId);

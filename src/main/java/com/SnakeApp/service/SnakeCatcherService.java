@@ -129,6 +129,7 @@ public class SnakeCatcherService {
 
     public CommonResponse updateSnakeCatcher(SnakeCatcherDto snakeCatcherDto){
         SnakeCatcher snakeCatcher = modelMapper.map(snakeCatcherDto,SnakeCatcher.class);
+        snakeCatcher.setAge(commonService.calculateAge(snakeCatcherDto.getDob()));
         CommonResponse commonResponse = new CommonResponse();
         MailDto mailDto = new MailDto();
         if(snakeCatcherRepository.findBySnakeCatcherIdAndStatus(snakeCatcher.getSnakeCatcherId(),statusValue.ACTIVE.sts()) == null){
@@ -195,6 +196,18 @@ public class SnakeCatcherService {
         commonResponse.setStatus(true);
         commonResponse.setMessages(Arrays.asList("Data Found.!"));
 
+        return commonResponse;
+    }
+
+    public CommonResponse getSnakeCatchersByCity(String city){
+        CommonResponse commonResponse = new CommonResponse();
+        List<SnakeCatcher> snakeCatcherList = snakeCatcherRepository.findByCityAndStatus(city, statusValue.ACTIVE.sts());
+        if(snakeCatcherList.size() == 0){
+            throw new ResourceNotFoundException("Data Not Found.!");
+        }
+        commonResponse.setPayload(snakeCatcherList);
+        commonResponse.setStatus(true);
+        commonResponse.setMessages(Arrays.asList("Data Found.!"));
         return commonResponse;
     }
 }

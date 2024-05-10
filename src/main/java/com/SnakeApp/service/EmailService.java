@@ -19,7 +19,7 @@ public class EmailService {
         mailMessage.setSubject(mailDto.getSubject());
         mailMessage.setTo(mailDto.getToMail());
         mailMessage.setFrom(fromMail);
-
+        //test
         try {
             javaMailSender.send(mailMessage);
         }catch (Exception exception){
