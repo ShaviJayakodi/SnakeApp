@@ -198,4 +198,16 @@ public class SnakeCatcherService {
 
         return commonResponse;
     }
+
+    public CommonResponse getSnakeCatchersByCity(String city){
+        CommonResponse commonResponse = new CommonResponse();
+        List<SnakeCatcher> snakeCatcherList = snakeCatcherRepository.findByCityAndStatus(city, statusValue.ACTIVE.sts());
+        if(snakeCatcherList.size() == 0){
+            throw new ResourceNotFoundException("Data Not Found.!");
+        }
+        commonResponse.setPayload(snakeCatcherList);
+        commonResponse.setStatus(true);
+        commonResponse.setMessages(Arrays.asList("Data Found.!"));
+        return commonResponse;
+    }
 }

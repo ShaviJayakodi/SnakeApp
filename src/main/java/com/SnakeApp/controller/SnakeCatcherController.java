@@ -39,6 +39,12 @@ public class SnakeCatcherController {
         return snakeCatcherService.getAllSnakeCatchers();
     }
 
+    @GetMapping("/getAllSnakeCatchersByCity")
+    public CommonResponse getSnakeCatchersByCity(@RequestParam String city){
+        return snakeCatcherService.getSnakeCatchersByCity(city);
+    }
+
+
     @GetMapping("/getSnakeCatherDataByRegNo")
     public CommonResponse getSnakeCatherDataByRegNo(@RequestParam String regNo) {
         return snakeCatcherService.getSnakeCatherDataByRegNo(regNo);

@@ -21,5 +21,6 @@ public interface SnakeCatcherRepository extends JpaRepository<SnakeCatcher, Long
     SnakeCatcher findBySnakeCatcherIdAndStatus(long snakeCatcherId, int status);
 
     SnakeCatcher findByRegNoAndStatus (String regNo, int status);
+    List<SnakeCatcher> findByCityAndStatus(String city, int status);
 }
 
